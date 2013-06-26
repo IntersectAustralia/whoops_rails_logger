@@ -25,6 +25,9 @@ module WhoopsRailsLogger
         exception = raw_data[:exception]
         rack_env  = raw_data[:rack_env]
         rack_req  = ::Rack::Request.new(rack_env)
+        
+        parameter_filter = ActionDispatch::Http::ParameterFilter.new(::Rails.application.config.filter_parameters)
+        rack_env = parameter_filter.filter(rack_env)
 
         details = {}
         details[:backtrace] = exception.backtrace.collect{ |line|
@@ -34,8 +37,8 @@ module WhoopsRailsLogger
         details[:http_host]      = rack_env["HTTP_HOST"]
         details[:params]         = rack_env["action_dispatch.request.parameters"]
         details[:raw_post_data]  = rack_env["RAW_POST_DATA"]  
-        details[:controller]     = details[:params][:controller] if details[:params]
-        details[:action]         = details[:params][:action]     if details[:params]
+        details[:controller]     = details[:params]['controller'] if details[:params]
+        details[:action]         = details[:params]['action']     if details[:params]
         details[:query_string]   = rack_env["QUERY_STRING"]
         details[:remote_addr]    = rack_env["REMOTE_ADDR"]
         details[:request_method] = rack_env["REQUEST_METHOD"]
