@@ -9,15 +9,15 @@ module WhoopsRailsLogger
     configure
     create_exception_strategy
   end
-  
+
   def self.configure
-    unless Rails.env.development?
+    unless Rails.env.development? || Rails.env.test?
       WhoopsLogger.config.set({:host => "deployment-tracker.intersect.org.au"})
       WhoopsLogger.config.logger = Rails.logger
     end
   end
-  
+
   def self.create_exception_strategy
     strategy = WhoopsRailsLogger::ExceptionStrategy.new(:rails_exception)
-  end  
+  end
 end
