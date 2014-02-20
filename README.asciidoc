@@ -6,7 +6,7 @@ As of version 1.0, this gem is configured to connect to Intersect's Whoops Serve
 
 == Installation
 
-. Add +whoops_rails_logger+ to your +Gemfile+
+. Add +gem 'whoops_rails_logger', git: 'https://github.com/IntersectAustralia/whoops_rails_logger.git'+ to your +Gemfile+
 
 == Usage
 
